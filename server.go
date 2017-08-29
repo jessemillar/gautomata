@@ -32,7 +32,8 @@ func main() {
 	draw.Draw(m, m.Bounds(), &image.Uniform{dark}, image.ZP, draw.Src) // Fill with a uniform color
 
 	// Draw the automata
-	cells.Funnels(*m, *w, *h, light, dark)
+	// cells.Funnels(*m, *w, *h, light, dark)
+	cells.Rule30(*m, *w, *h, light, dark)
 
 	// Make the file
 	f, err := os.OpenFile(*output, os.O_WRONLY|os.O_CREATE, 0600)
