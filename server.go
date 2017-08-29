@@ -10,6 +10,8 @@ import (
 	"math/rand"
 	"os"
 	"time"
+
+	"github.com/jessemillar/gautomata/cells"
 )
 
 var (
@@ -29,31 +31,8 @@ func main() {
 	m := image.NewRGBA(image.Rect(0, 0, *w, *h))
 	draw.Draw(m, m.Bounds(), &image.Uniform{dark}, image.ZP, draw.Src) // Fill with a uniform color
 
-	// Random initial state
-	for i := 0; i < *w; i++ {
-		if rand.Intn(2) < 1 {
-			m.Set(i, 0, light)
-		}
-	}
-
-	// Loop through the y axis
-	for y := 1; y < *h; y++ {
-		for x := 0; x < *w; x++ {
-			draw := 0
-
-			if m.At(x-1, y-1) == dark {
-				draw++
-			}
-
-			if m.At(x+1, y-1) == dark {
-				draw++
-			}
-
-			if draw == 1 {
-				m.Set(x, y, light)
-			}
-		}
-	}
+	// Draw the automata
+	cells.Funnels(*m, *w, *h, light, dark)
 
 	// Make the file
 	f, err := os.OpenFile(*output, os.O_WRONLY|os.O_CREATE, 0600)
