@@ -28,7 +28,7 @@ func main() {
 	// Get params
 	w := flag.Int("w", 256, "the width of the resulting image")
 	h := flag.Int("h", 256, "the height of the resulting image")
-	aut := flag.String("a", "rule30", "the automata to execute")
+	aut := flag.String("a", "random", "the automata to execute")
 	batch := flag.Bool("b", false, "whether or not to automatically name the resulting images")
 	output := flag.String("o", "automata.png", "the filename of the resulting image")
 	flag.Parse()
@@ -43,6 +43,7 @@ func main() {
 	// Draw the automata
 	if *aut == "random" { // Select a random automata
 		for k, _ := range automata {
+			*aut = k
 			automata[k](*m, *w, *h, background)
 			break
 		}
@@ -63,4 +64,6 @@ func main() {
 
 	defer f.Close()
 	png.Encode(f, m)
+
+	fmt.Println("Finished generating " + *aut)
 }
