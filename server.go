@@ -17,6 +17,12 @@ import (
 	"github.com/jessemillar/gautomata/tools"
 )
 
+var automata = map[string]func(image.RGBA, int, int, color.Color, color.Color){
+	"funnels": cells.Funnels,
+	"rule30":  cells.Rule30,
+	"rule110": cells.Rule110,
+}
+
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
 
@@ -24,12 +30,13 @@ func main() {
 	w := flag.Int("w", 256, "the width of the resulting image")
 	h := flag.Int("h", 256, "the height of the resulting image")
 	col := flag.String("c", "#ffffff", "the color to use as an average for randomly-generated colors")
+	aut := flag.String("a", "rule30", "the automata to execute")
+	batch := flag.Bool("b", false, "whether or not to automatically name the resulting images")
 	output := flag.String("o", "automata.png", "the filename of the resulting image")
 	flag.Parse()
 
 	// Parse the mix color
 	colHex := strings.TrimLeft(*col, "#") // Strip the #
-	fmt.Println(colHex)
 	colRed, _ := strconv.ParseUint(colHex[0:2], 16, 32)
 	colGreen, _ := strconv.ParseUint(colHex[2:4], 16, 32)
 	colBlue, _ := strconv.ParseUint(colHex[4:6], 16, 32)
@@ -44,11 +51,20 @@ func main() {
 	draw.Draw(m, m.Bounds(), &image.Uniform{dark}, image.ZP, draw.Src) // Fill with a uniform color
 
 	// Draw the automata
-	// cells.Funnels(*m, *w, *h, light, dark)
-	// cells.Rule30(*m, *w, *h, light, dark)
-	cells.Rule110(*m, *w, *h, light, dark)
+	if *aut == "random" {
+		for k, _ := range automata {
+			automata[k](*m, *w, *h, light, dark)
+			break
+		}
+	} else {
+		automata[*aut](*m, *w, *h, light, dark)
+	}
 
 	// Make the file
+	if *batch {
+		*output = strconv.FormatInt(time.Now().UnixNano()/1000000, 10) + ".png"
+	}
+
 	f, err := os.OpenFile(*output, os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		fmt.Println(err)
