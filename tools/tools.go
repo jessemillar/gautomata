@@ -6,9 +6,11 @@ import (
 )
 
 func RandColor() color.Color {
-	red := uint32(rand.Intn(256))
-	green := uint32(rand.Intn(256))
-	blue := uint32(rand.Intn(256))
+	cap := 100
+
+	red := uint32(rand.Intn(cap))
+	green := uint32(rand.Intn(cap))
+	blue := uint32(rand.Intn(cap))
 
 	return color.RGBA{uint8(red), uint8(green), uint8(blue), 255}
 }
