@@ -9,7 +9,7 @@ import (
 )
 
 func Rule30(m image.RGBA, w int, h int, background color.Color) {
-	foreground := tools.LightenColor(background, 222)
+	foreground := tools.LightenColor(background)
 
 	// Random initial state
 	for i := 0; i < w; i++ {
