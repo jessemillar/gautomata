@@ -20,6 +20,7 @@ var automata = map[string]func(image.RGBA, int, int, color.Color){
 	"funnels": cells.Funnels,
 	"rule30":  cells.Rule30,
 	"rule110": cells.Rule110,
+	"rule150": cells.Rule150,
 }
 
 func main() {
