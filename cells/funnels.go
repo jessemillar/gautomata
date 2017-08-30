@@ -9,7 +9,7 @@ import (
 )
 
 func Funnels(m image.RGBA, w int, h int, background color.Color) {
-	foreground := tools.GhostColor(background)
+	foreground := tools.RandColor()
 
 	// Random initial state
 	for i := 0; i < w; i++ {
