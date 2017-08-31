@@ -3,7 +3,6 @@ package cells
 import (
 	"image"
 	"image/color"
-	"math/rand"
 
 	"github.com/jessemillar/gautomata/tools"
 )
@@ -11,12 +10,7 @@ import (
 func Rule126(m image.RGBA, w int, h int, background color.Color) {
 	foreground := tools.RandColor()
 
-	// Random initial state
-	for i := 0; i < w; i++ {
-		if rand.Intn(2) < 1 {
-			m.Set(i, 0, foreground)
-		}
-	}
+	tools.RandState(m, w, foreground)
 
 	// Loop through the canvas
 	for y := 1; y < h; y++ {
