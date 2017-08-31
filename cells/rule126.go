@@ -8,7 +8,7 @@ import (
 	"github.com/jessemillar/gautomata/tools"
 )
 
-func Rule150(m image.RGBA, w int, h int, background color.Color) {
+func Rule126(m image.RGBA, w int, h int, background color.Color) {
 	foreground := tools.RandColor()
 
 	// Random initial state
@@ -26,17 +26,17 @@ func Rule150(m image.RGBA, w int, h int, background color.Color) {
 			r := m.At(x+1, y-1) == foreground
 
 			if l && c && r {
-				m.Set(x, y, foreground)
+				m.Set(x, y, background)
 				continue
 			}
 
 			if l && c && !r {
-				m.Set(x, y, background)
+				m.Set(x, y, foreground)
 				continue
 			}
 
 			if l && !c && r {
-				m.Set(x, y, background)
+				m.Set(x, y, foreground)
 				continue
 			}
 
@@ -46,7 +46,7 @@ func Rule150(m image.RGBA, w int, h int, background color.Color) {
 			}
 
 			if !l && c && r {
-				m.Set(x, y, background)
+				m.Set(x, y, foreground)
 				continue
 			}
 
