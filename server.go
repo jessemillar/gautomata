@@ -18,6 +18,7 @@ import (
 
 var automata = map[string]func(image.RGBA, int, int, color.Color){
 	"funnels": cells.Funnels,
+	"flowers": cells.Flowers,
 	"rule30":  cells.Rule30,
 	"rule110": cells.Rule110,
 	"rule126": cells.Rule126,
