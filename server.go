@@ -21,12 +21,14 @@ import (
 )
 
 var automata = map[string]func(image.RGBA, int, int, []color.RGBA){
-	"funnels": cells.Funnels,
-	"flowers": cells.Flowers,
-	"rule30":  cells.Rule30,
-	"rule110": cells.Rule110,
-	"rule126": cells.Rule126,
-	"rule150": cells.Rule150,
+	"flowers":    cells.Flowers,
+	"funnels":    cells.Funnels,
+	"rule30":     cells.Rule30,
+	"rule110":    cells.Rule110,
+	"rule126":    cells.Rule126,
+	"rule150":    cells.Rule150,
+	"playground": cells.Playground,
+	"snakes":     cells.Snakes,
 }
 
 func main() {

@@ -23,6 +23,10 @@ func RandPalette(count int) ([]color.RGBA, error) {
 	return finalPalette, nil
 }
 
+func RandFromPalette(palette []color.RGBA) color.RGBA {
+	return palette[rand.Intn(len(palette)-1)+1]
+}
+
 // RandTopLine generates a random top line for the automata to feed off of
 func RandTopLine(m image.RGBA, w int, foreground color.RGBA) {
 	for i := 0; i < w; i++ {

@@ -1,4 +1,8 @@
 ## Overview
+> The cellular automaton consists of a line of cells, each colored either black or white. At every step there is then a definite rule that determines the color of a given cell from the color of that cell and its immediate left and right neighbors on the step before.
+>
+> -Stephen Wolfram (A New Kind of Science, 2004)
+
 `gautomata` is a [cellular automata](https://en.wikipedia.org/wiki/Cellular_automaton) renderer meant to generate wallpaper-size images of various cellular automata. It's written in the [Go programming language](https://golang.org/) to keep my Go skills sharp.
 
 This project was heavily inspired by [trasevol_dog's](https://twitter.com/TRASEVOL_DOG) [writings on](https://trasevol.dog/2017/03/14/doodle-insights-8-cellular-automata-aka-black-magic/) and [experiments with](https://www.lexaloffle.com/bbs/?tid=28308) cellular automata.
