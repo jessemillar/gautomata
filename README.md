@@ -26,7 +26,7 @@ Flags:
 ```
 
 ## Notes
-This repository uses [`gvt`](https://github.com/FiloSottile/gvt) for package management. Below is a list of dependencies and their versions that can be found in the `/vendor`
+This repository uses [`gvt`](https://github.com/FiloSottile/gvt) for package management. Below is a list of dependencies and their versions that can be found in the `/vendor` directory.
 ```
 gvt fetch -tag v2.2.5 gopkg.in/alecthomas/kingpin.v2
 ```
