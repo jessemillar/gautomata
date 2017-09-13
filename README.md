@@ -7,6 +7,7 @@
 
 This project was heavily inspired by [trasevol_dog's](https://twitter.com/TRASEVOL_DOG) [writings on](https://trasevol.dog/2017/03/14/doodle-insights-8-cellular-automata-aka-black-magic/) and [experiments with](https://www.lexaloffle.com/bbs/?tid=28308) cellular automata.
 
+## Sample
 ![Sample](https://github.com/jessemillar/gautomata/raw/master/automata.png)
 
 ## Installation
