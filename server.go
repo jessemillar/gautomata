@@ -7,6 +7,7 @@ import (
 	"image/color"
 	"image/draw"
 	"image/png"
+	"log"
 	"math/rand"
 	"os"
 	"strconv"
@@ -16,7 +17,7 @@ import (
 	"github.com/jessemillar/gautomata/tools"
 )
 
-var automata = map[string]func(image.RGBA, int, int, color.Color){
+var automata = map[string]func(image.RGBA, int, int, []color.RGBA){
 	"funnels": cells.Funnels,
 	"flowers": cells.Flowers,
 	"rule30":  cells.Rule30,
@@ -31,27 +32,33 @@ func main() {
 	// Get params
 	w := flag.Int("w", 256, "the width of the resulting image")
 	h := flag.Int("h", 256, "the height of the resulting image")
+	p := flag.Int("p", 6, "the number of colors in the generated color palette")
 	aut := flag.String("a", "random", "the automata to execute")
 	batch := flag.Bool("b", false, "whether or not to automatically name the resulting images")
 	output := flag.String("o", "automata.png", "the filename of the resulting image")
 	flag.Parse()
 
-	// Generate the background color
-	background := tools.RandColor()
+	// Generate a random color palette
+	palette, err := tools.RandPalette(*p)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Make an image
 	m := image.NewRGBA(image.Rect(0, 0, *w, *h))
-	draw.Draw(m, m.Bounds(), &image.Uniform{background}, image.ZP, draw.Src) // Fill with a uniform color
+	draw.Draw(m, m.Bounds(), &image.Uniform{palette[0]}, image.ZP, draw.Src) // Fill with a uniform color
 
 	// Draw the automata
 	if *aut == "random" { // Select a random automata
 		for k, _ := range automata {
 			*aut = k
-			automata[k](*m, *w, *h, background)
+			fmt.Println("Started generating " + *aut)
+			automata[k](*m, *w, *h, palette)
 			break
 		}
 	} else { // Draw the selected automata
-		automata[*aut](*m, *w, *h, background)
+		fmt.Println("Started generating " + *aut)
+		automata[*aut](*m, *w, *h, palette)
 	}
 
 	// Make the file

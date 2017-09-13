@@ -7,10 +7,10 @@ import (
 	"github.com/jessemillar/gautomata/tools"
 )
 
-func Funnels(m image.RGBA, w int, h int, background color.Color) {
-	foreground := tools.RandColor()
+func Funnels(m image.RGBA, w int, h int, palette []color.RGBA) {
+	foreground := palette[1]
 
-	tools.RandState(m, w, foreground)
+	tools.RandTopLine(m, w, foreground)
 
 	// Loop through the canvas
 	for y := 1; y < h; y++ {

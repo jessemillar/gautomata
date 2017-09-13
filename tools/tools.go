@@ -4,20 +4,27 @@ import (
 	"image"
 	"image/color"
 	"math/rand"
+
+	"github.com/lucasb-eyer/go-colorful"
 )
 
-func RandColor() color.Color {
-	cap := 127
+func RandPalette(count int) ([]color.RGBA, error) {
+	generatedPalette, err := colorful.SoftPalette(count)
+	if err != nil {
+		return []color.RGBA{}, err
+	}
 
-	red := uint32(rand.Intn(cap)) + 100
-	green := uint32(rand.Intn(cap)) + 100
-	blue := uint32(rand.Intn(cap)) + 100
+	finalPalette := []color.RGBA{}
 
-	return color.RGBA{uint8(red), uint8(green), uint8(blue), 255}
+	for _, c := range generatedPalette {
+		finalPalette = append(finalPalette, color.RGBA{uint8(c.R * 255), uint8(c.G * 255), uint8(c.B * 255), 255})
+	}
+
+	return finalPalette, nil
 }
 
-// RandState generates a random top line for the automata to feed off of
-func RandState(m image.RGBA, w int, foreground color.Color) {
+// RandTopLine generates a random top line for the automata to feed off of
+func RandTopLine(m image.RGBA, w int, foreground color.RGBA) {
 	for i := 0; i < w; i++ {
 		upperBound := rand.Intn(10) + 10
 		lowerBound := rand.Intn(1) + 1
