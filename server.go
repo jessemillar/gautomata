@@ -29,13 +29,12 @@ func main() {
 	rand.Seed(time.Now().UTC().UnixNano()) // Set the random seed
 
 	// Get params
-	w := kingpin.Arg("width", "The width of the resulting image").Default("256").Int()
-	h := kingpin.Arg("height", "The height of the resulting image").Default("256").Int()
-	c := kingpin.Arg("palette", "The number of colors in the generated color palette").Default("6").Int()
-	aut := kingpin.Arg("automata", "The automata to execute").Default("random").String()
+	w := kingpin.Flag("width", "The width of the resulting image").Short('w').Default("256").Int()
+	h := kingpin.Flag("height", "The height of the resulting image").Short('h').Default("256").Int()
+	c := kingpin.Flag("colors", "The number of colors in the generated color palette").Short('c').Default("5").Int()
+	aut := kingpin.Flag("automata", "The automata to execute").Short('a').Default("random").String()
 	batch := kingpin.Flag("batch", "Whether or not to automatically name the resulting images").Short('b').Default("false").Bool()
-	output := kingpin.Arg("output", "The filename of the resulting image").Default("automata.png").String()
-	kingpin.CommandLine.HelpFlag.Short('h')
+	output := kingpin.Flag("output", "The filename of the resulting image").Short('o').Default("automata.png").String()
 	kingpin.Parse()
 
 	// Generate a random color palette
