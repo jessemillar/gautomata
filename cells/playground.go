@@ -4,46 +4,62 @@ import (
 	"image"
 	"image/color"
 	"math/rand"
-
-	"github.com/jessemillar/gautomata/tools"
 )
 
 func Playground(m image.RGBA, w int, h int, palette []color.RGBA) {
-	directions := []rune{'l', 'r', 'u', 'd'}
-	magic := w * h / 5
-	currentColor := palette[1]
+	// http://www.emanueleferonato.com/2011/05/17/using-cellular-automata-to-generate-random-land-and-water-maps-with-flash/
 
-	for i := 0; i < magic/3; i++ {
-		// Start in a random spot
-		x := rand.Intn(w)
-		y := rand.Intn(h)
-		// Pick a random color for each snake
-		currentColor = tools.RandFromPalette(palette)
-		// Pick a random starting direction
-		currentDirection := directions[rand.Intn(len(directions))]
+	background := palette[0]
+	foreground := palette[1]
 
-		// Make the initial dot
-		m.Set(x, y, currentColor)
+	// Create the initial image state where each pixel has an equal chance to be both states
+	for x := 0; x < w; x++ {
+		for y := 0; y < h; y++ {
+			if rand.Intn(2) == 1 {
+				m.Set(x, y, foreground)
+			}
+		}
+	}
 
-		for l := 0; l < magic; l++ {
-			// Change directions every once in a while
-			if rand.Intn(10) < 2 {
-				currentDirection = directions[rand.Intn(len(directions))]
+	for x := 0; x < w; x++ {
+		for y := 0; y < h; y++ {
+			waterCount := 0
+			isWater := m.At(x, y) == background
+
+			if m.At(x-1, y) == background {
+				waterCount++
+			}
+			if m.At(x+1, y) == background {
+				waterCount++
+			}
+			if m.At(x, y-1) == background {
+				waterCount++
+			}
+			if m.At(x, y+1) == background {
+				waterCount++
 			}
 
-			switch currentDirection {
-			case 'l':
-				x -= 1
-				m.Set(x, y, currentColor)
-			case 'r':
-				x += 1
-				m.Set(x, y, currentColor)
-			case 'u':
-				y -= 1
-				m.Set(x, y, currentColor)
-			case 'd':
-				y += 1
-				m.Set(x, y, currentColor)
+			if m.At(x-1, y-1) == background {
+				waterCount++
+			}
+			if m.At(x+1, y-1) == background {
+				waterCount++
+			}
+			if m.At(x-1, y+1) == background {
+				waterCount++
+			}
+			if m.At(x+1, y+1) == background {
+				waterCount++
+			}
+
+			if isWater {
+				if waterCount <= 3 {
+					m.Set(x, y, foreground)
+				}
+			} else {
+				if waterCount >= 5 {
+					m.Set(x, y, background)
+				}
 			}
 		}
 	}
