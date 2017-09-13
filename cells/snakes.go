@@ -10,7 +10,7 @@ import (
 
 func Snakes(m image.RGBA, w int, h int, palette []color.RGBA) {
 	directions := []rune{'l', 'r', 'u', 'd'}
-	magic := w * h / 5
+	magic := w * h / 50
 	currentColor := palette[1]
 
 	for i := 0; i < magic/3; i++ {
@@ -34,17 +34,15 @@ func Snakes(m image.RGBA, w int, h int, palette []color.RGBA) {
 			switch currentDirection {
 			case 'l':
 				x -= 1
-				m.Set(x, y, currentColor)
 			case 'r':
 				x += 1
-				m.Set(x, y, currentColor)
 			case 'u':
 				y -= 1
-				m.Set(x, y, currentColor)
 			case 'd':
 				y += 1
-				m.Set(x, y, currentColor)
 			}
+
+			m.Set(x, y, currentColor)
 		}
 	}
 }
