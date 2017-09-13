@@ -7,27 +7,34 @@ import (
 )
 
 func Flowers(m image.RGBA, w int, h int, palette []color.RGBA) {
+	modifier := 15
+	size := w * h * modifier
+	background := palette[0]
 	currentColor := palette[1]
+	iterations := rand.Intn(size) + size
 
 	// Pick a random pixel as the starting point
 	m.Set(rand.Intn(w), rand.Intn(h), currentColor)
 
-	for !canvasIsFull(m, w, h, palette[0]) {
+	for iterations > 0 {
 		x := rand.Intn(w)
 		y := rand.Intn(h)
 
-		if m.At(x, y) == palette[0] {
+		if m.At(x, y) == background {
 			continue // Go to the next loop iteration
 		}
 
-		if rand.Intn(w*h/2) < 5 {
+		iterations--
+
+		// Pick a random, non-background color every once in a while for variety
+		if rand.Intn(size) < modifier*2 {
 			currentColor = palette[rand.Intn(len(palette)-1)+1]
 		}
 
-		l := m.At(x-1, y) == palette[0]
-		r := m.At(x+1, y) == palette[0]
-		u := m.At(x, y-1) == palette[0]
-		d := m.At(x, y+1) == palette[0]
+		l := m.At(x-1, y) == background
+		r := m.At(x+1, y) == background
+		u := m.At(x, y-1) == background
+		d := m.At(x, y+1) == background
 
 		if l {
 			m.Set(x-1, y, currentColor)
@@ -45,30 +52,4 @@ func Flowers(m image.RGBA, w int, h int, palette []color.RGBA) {
 			m.Set(x, y+1, currentColor)
 		}
 	}
-}
-
-func canvasIsFull(m image.RGBA, w int, h int, background color.RGBA) bool {
-	cornerCount := 0
-
-	if m.At(0, 0) != background {
-		cornerCount++
-	}
-
-	if m.At(0, h) != background {
-		cornerCount++
-	}
-
-	if m.At(w, 0) != background {
-		cornerCount++
-	}
-
-	if m.At(w, h) != background {
-		cornerCount++
-	}
-
-	if cornerCount == 4 {
-		return true
-	}
-
-	return false
 }

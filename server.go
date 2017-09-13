@@ -31,6 +31,7 @@ func main() {
 
 	// Get params
 	w := flag.Int("w", 256, "the width of the resulting image")
+	w = flag.Int("width", 256, "the width of the resulting image")
 	h := flag.Int("h", 256, "the height of the resulting image")
 	p := flag.Int("p", 6, "the number of colors in the generated color palette")
 	aut := flag.String("a", "random", "the automata to execute")
