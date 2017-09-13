@@ -1,8 +1,6 @@
 package main
 
 import (
-	"flag"
-	"fmt"
 	"image"
 	"image/color"
 	"image/draw"
@@ -15,6 +13,7 @@ import (
 
 	"github.com/jessemillar/gautomata/cells"
 	"github.com/jessemillar/gautomata/tools"
+	"gopkg.in/alecthomas/kingpin.v2"
 )
 
 var automata = map[string]func(image.RGBA, int, int, []color.RGBA){
@@ -30,17 +29,17 @@ func main() {
 	rand.Seed(time.Now().UTC().UnixNano()) // Set the random seed
 
 	// Get params
-	w := flag.Int("w", 256, "the width of the resulting image")
-	w = flag.Int("width", 256, "the width of the resulting image")
-	h := flag.Int("h", 256, "the height of the resulting image")
-	p := flag.Int("p", 6, "the number of colors in the generated color palette")
-	aut := flag.String("a", "random", "the automata to execute")
-	batch := flag.Bool("b", false, "whether or not to automatically name the resulting images")
-	output := flag.String("o", "automata.png", "the filename of the resulting image")
-	flag.Parse()
+	w := kingpin.Arg("width", "The width of the resulting image").Default("256").Int()
+	h := kingpin.Arg("height", "The height of the resulting image").Default("256").Int()
+	c := kingpin.Arg("palette", "The number of colors in the generated color palette").Default("6").Int()
+	aut := kingpin.Arg("automata", "The automata to execute").Default("random").String()
+	batch := kingpin.Flag("batch", "Whether or not to automatically name the resulting images").Short('b').Default("false").Bool()
+	output := kingpin.Arg("output", "The filename of the resulting image").Default("automata.png").String()
+	kingpin.CommandLine.HelpFlag.Short('h')
+	kingpin.Parse()
 
 	// Generate a random color palette
-	palette, err := tools.RandPalette(*p)
+	palette, err := tools.RandPalette(*c)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -53,12 +52,12 @@ func main() {
 	if *aut == "random" { // Select a random automata
 		for k, _ := range automata {
 			*aut = k
-			fmt.Println("Started generating " + *aut)
+			log.Println("Started generating " + *aut)
 			automata[k](*m, *w, *h, palette)
 			break
 		}
 	} else { // Draw the selected automata
-		fmt.Println("Started generating " + *aut)
+		log.Println("Started generating " + *aut)
 		automata[*aut](*m, *w, *h, palette)
 	}
 
@@ -69,12 +68,11 @@ func main() {
 
 	f, err := os.OpenFile(*output, os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
-		fmt.Println(err)
-		return
+		log.Fatal(err)
 	}
 
 	defer f.Close()
 	png.Encode(f, m)
 
-	fmt.Println("Finished generating " + *aut)
+	log.Println("Finished generating " + *aut)
 }
