@@ -32,6 +32,32 @@ Flags:
   -o, --output="automata.png"  The filename of the resulting image
 ```
 
+## Tips
+`gautomata` is not capable of generating scaled images. If you wish to more easily see pixels in your resulting images, combining `gautomata` with something like [ImageMagick](https://www.imagemagick.org/script/index.php) could be useful. 
+
+The following `bash`/[`zsh`](http://ohmyz.sh/) function uses `gautomata` to generate automata images and uses ImageMagick to scale them to MacBook Pro screen resolutions.
+```
+cells () {
+        if [ -z $1 ]
+        then
+                echo "No iteration count supplied"
+        else
+                for i in {1..$1}
+                do
+                        if [ -z $2 ]
+                        then
+                                gautomata -w 576 -h 360 -b -a random
+                        else
+                                gautomata -w 576 -h 360 -b -a $2
+                        fi
+                done
+                echo "Scaling images"
+                mogrify -scale 5760x3600+0+0 *.png
+        fi
+}
+
+```
+
 ## Notes
 This repository uses [`gvt`](https://github.com/FiloSottile/gvt) for package management. Below is a list of dependencies and their versions that can be found in the `/vendor` directory.
 ```
