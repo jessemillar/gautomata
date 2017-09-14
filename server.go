@@ -36,13 +36,13 @@ func main() {
 	rand.Seed(time.Now().UTC().UnixNano()) // Set the random seed
 
 	// Get params
-	w := kingpin.Flag("width", "The width of the resulting image").Short('w').Default("256").Int()
-	h := kingpin.Flag("height", "The height of the resulting image").Short('h').Default("256").Int()
-	c := kingpin.Flag("colors", "The number of colors in the generated color palette").Short('c').Default("5").Int()
-	l := kingpin.Flag("list", "List the supported automata").Short('l').Bool()
-	aut := kingpin.Flag("automata", "The automata to execute").Short('a').Default("random").String()
-	batch := kingpin.Flag("batch", "Whether or not to automatically name the resulting images").Short('b').Default("false").Bool()
-	output := kingpin.Flag("output", "The filename of the resulting image").Short('o').Default("automata.png").String()
+	w := kingpin.Flag("width", "The width of the resulting image.").Short('w').Default("256").Int()
+	h := kingpin.Flag("height", "The height of the resulting image.").Short('h').Default("256").Int()
+	c := kingpin.Flag("colors", "The number of colors in the generated color palette.").Short('c').Default("5").Int()
+	l := kingpin.Flag("list", "List the supported automata.").Short('l').Bool()
+	aut := kingpin.Flag("automata", "The automata to execute.").Short('a').Default("random").String()
+	batch := kingpin.Flag("batch", "Whether or not to automatically name the resulting images.").Short('b').Default("false").Bool()
+	output := kingpin.Flag("output", "The filename of the resulting image.").Short('o').Default("automata.png").String()
 	kingpin.Parse()
 
 	if *l {

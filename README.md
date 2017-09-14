@@ -23,13 +23,13 @@ usage: gautomata [<flags>]
 
 Flags:
       --help                   Show context-sensitive help (also try --help-long and --help-man).
-  -w, --width=256              The width of the resulting image
-  -h, --height=256             The height of the resulting image
-  -c, --colors=5               The number of colors in the generated color palette
-  -l, --list                   List the supported automata
-  -a, --automata="random"      The automata to execute
-  -b, --batch                  Whether or not to automatically name the resulting images
-  -o, --output="automata.png"  The filename of the resulting image
+  -w, --width=256              The width of the resulting image.
+  -h, --height=256             The height of the resulting image.
+  -c, --colors=5               The number of colors in the generated color palette.
+  -l, --list                   List the supported automata.
+  -a, --automata="random"      The automata to execute.
+  -b, --batch                  Whether or not to automatically name the resulting images.
+  -o, --output="automata.png"  The filename of the resulting image.
 ```
 
 ## Tips
