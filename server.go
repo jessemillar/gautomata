@@ -29,6 +29,7 @@ var automata = map[string]func(image.RGBA, int, int, []color.RGBA){
 	"rule150":    cells.Rule150,
 	"playground": cells.Playground,
 	"snakes":     cells.Snakes,
+	"water":      cells.Water,
 }
 
 func main() {
@@ -74,6 +75,8 @@ func main() {
 
 	// Draw the automata
 	if *aut == "random" { // Select a random automata
+		delete(automata, "playground") // Don't run the Playground in "production"
+
 		for k := range automata {
 			*aut = k
 			log.Println("Started generating " + *aut)
