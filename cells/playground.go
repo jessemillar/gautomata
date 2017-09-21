@@ -10,6 +10,7 @@ import (
 
 func Playground(m image.RGBA, w int, h int, palette []color.RGBA) {
 	speechLength := w / 5
+	background := palette[0]
 	foreground := palette[1]
 
 	// Create the initial image state where each pixel has an equal chance to be both states
@@ -22,23 +23,43 @@ func Playground(m image.RGBA, w int, h int, palette []color.RGBA) {
 	}
 
 	for y := 0; y < h; y++ {
-		impressions := 0
+		enthusiasm := 0
 		applauseColor := tools.RandFromPalette(palette)
 
 		for i := 0; i < speechLength; i++ {
 			if m.At(i, y) == foreground {
-				impressions++
+				if rand.Intn(2) == 1 {
+					enthusiasm++
+				}
 			}
 		}
 
-		enthusiasm := rand.Intn(w) / impressions
-
 		for x := speechLength; x < w; x++ {
 			if enthusiasm > 0 {
-				m.Set(x, y, applauseColor)
+				leftNeighbor := m.At(x, y-1)
+				rightNeighbor := m.At(x, y+1)
+				interval := 2
+
+				if enthusiasm < speechLength/2 {
+					interval++
+				}
+
+				if rand.Intn(2) == 1 {
+					m.Set(x, y, applauseColor)
+				}
 
 				if rand.Intn(5) == 1 {
-					enthusiasm--
+					if leftNeighbor != background && rightNeighbor != background {
+						if rand.Intn(2) == 1 {
+							enthusiasm++
+						}
+					} else if leftNeighbor != background || rightNeighbor != background {
+						if rand.Intn(4) == 1 {
+							enthusiasm++
+						}
+					} else {
+						enthusiasm--
+					}
 				}
 			}
 		}
