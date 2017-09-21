@@ -29,7 +29,11 @@ func Applause(m image.RGBA, w int, h int, palette []color.RGBA) {
 		for i := 0; i < speechLength; i++ {
 			if m.At(x, i) == foreground {
 				if rand.Intn(2) == 1 {
-					enthusiasm++
+					if m.At(x, i-1) == foreground {
+						enthusiasm += 2
+					} else {
+						enthusiasm++
+					}
 				}
 			}
 		}
@@ -40,11 +44,11 @@ func Applause(m image.RGBA, w int, h int, palette []color.RGBA) {
 				rightNeighbor := m.At(x+1, y)
 				interval := 2
 
-				if enthusiasm < speechLength/2 {
+				if enthusiasm < speechLength/10 {
 					interval++
 				}
 
-				if rand.Intn(2) == 1 {
+				if rand.Intn(interval) == 1 {
 					m.Set(x, y, applauseColor)
 				}
 
