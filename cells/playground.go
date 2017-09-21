@@ -4,61 +4,41 @@ import (
 	"image"
 	"image/color"
 	"math/rand"
+
+	"github.com/jessemillar/gautomata/tools"
 )
 
 func Playground(m image.RGBA, w int, h int, palette []color.RGBA) {
-	// http://www.emanueleferonato.com/2011/05/17/using-cellular-automata-to-generate-random-land-and-water-maps-with-flash/
-
-	background := palette[0]
+	speechLength := w / 5
 	foreground := palette[1]
 
 	// Create the initial image state where each pixel has an equal chance to be both states
-	for x := 0; x < w; x++ {
+	for x := 0; x < speechLength; x++ {
 		for y := 0; y < h; y++ {
-			if rand.Intn(2) == 1 {
+			if rand.Intn(3) == 1 {
 				m.Set(x, y, foreground)
 			}
 		}
 	}
 
-	for x := 0; x < w; x++ {
-		for y := 0; y < h; y++ {
-			waterCount := 0
-			isWater := m.At(x, y) == background
+	for y := 0; y < h; y++ {
+		impressions := 0
+		applauseColor := tools.RandFromPalette(palette)
 
-			if m.At(x-1, y) == background {
-				waterCount++
+		for i := 0; i < speechLength; i++ {
+			if m.At(i, y) == foreground {
+				impressions++
 			}
-			if m.At(x+1, y) == background {
-				waterCount++
-			}
-			if m.At(x, y-1) == background {
-				waterCount++
-			}
-			if m.At(x, y+1) == background {
-				waterCount++
-			}
+		}
 
-			if m.At(x-1, y-1) == background {
-				waterCount++
-			}
-			if m.At(x+1, y-1) == background {
-				waterCount++
-			}
-			if m.At(x-1, y+1) == background {
-				waterCount++
-			}
-			if m.At(x+1, y+1) == background {
-				waterCount++
-			}
+		enthusiasm := rand.Intn(w) / impressions
 
-			if isWater {
-				if waterCount <= 3 {
-					m.Set(x, y, foreground)
-				}
-			} else {
-				if waterCount >= 5 {
-					m.Set(x, y, background)
+		for x := speechLength; x < w; x++ {
+			if enthusiasm > 0 {
+				m.Set(x, y, applauseColor)
+
+				if rand.Intn(5) == 1 {
+					enthusiasm--
 				}
 			}
 		}
