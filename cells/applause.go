@@ -8,12 +8,12 @@ import (
 	"github.com/jessemillar/gautomata/tools"
 )
 
-func Playground(m image.RGBA, w int, h int, palette []color.RGBA) {
+func Applause(m image.RGBA, w int, h int, palette []color.RGBA) {
 	speechLength := h / 5
 	background := palette[0]
 	foreground := palette[1]
 
-	// Create the initial image state where each pixel has an equal chance to be both states
+	// Create the initial image state where each pixel in a band has a chance to be both states
 	for y := 0; y < speechLength; y++ {
 		for x := 0; x < w; x++ {
 			if rand.Intn(3) == 1 {
