@@ -37,25 +37,28 @@ Flags:
 
 The following `bash`/[`zsh`](http://ohmyz.sh/) function uses `gautomata` to generate automata images and uses ImageMagick to scale them to MacBook Pro screen resolutions.
 ```
-cells () {
+function cells() {
         if [ -z $1 ]
         then
                 echo "No iteration count supplied"
         else
                 for i in {1..$1}
                 do
+                        WIDTH=960
+                        HEIGHT=600
+
                         if [ -z $2 ]
                         then
-                                gautomata -w 576 -h 360 -b -a random
+                                gautomata -w $WIDTH -h $HEIGHT -b -a random
                         else
-                                gautomata -w 576 -h 360 -b -a $2
+                                gautomata -w $WIDTH -h $HEIGHT -b -a $2
                         fi
                 done
+
                 echo "Scaling images"
                 mogrify -scale 5760x3600+0+0 *.png
         fi
 }
-
 ```
 
 ## Notes
